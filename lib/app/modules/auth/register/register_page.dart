@@ -9,7 +9,7 @@ import 'package:todo_list_provider/app/modules/auth/register/register_controller
 import 'package:validatorless/validatorless.dart';
 
 class RegisterPage extends StatefulWidget {
-  RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -24,8 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    var defaultListener = DefaultListenerNotifier(
-        changeNotifier: context.read<RegisterController>());
+    var defaultListener = DefaultListenerNotifier(changeNotifier: context.read<RegisterController>());
     defaultListener.listener(
       context: context,
       successCallback: (notifier, listenerInstance) {
@@ -125,8 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: _passwordEC,
                     validator: Validatorless.multiple([
                       Validatorless.required('Senha obrigatória'),
-                      Validatorless.min(
-                          6, 'Senha deve ter pelo menos 6 caracteres'),
+                      Validatorless.min(6, 'Senha deve ter pelo menos 6 caracteres'),
                     ]),
                     obscureText: true,
                   ),
@@ -136,8 +134,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: _confirmPasswordEC,
                     validator: Validatorless.multiple([
                       Validatorless.required('Senha obrigatória'),
-                      Validators.compare(
-                          _passwordEC, 'Senha diferente de confirma senha'),
+                      Validators.compare(_passwordEC, 'Senha diferente de confirma senha'),
                     ]),
                     obscureText: true,
                   ),
@@ -146,15 +143,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     alignment: Alignment.bottomRight,
                     child: ElevatedButton(
                       onPressed: () {
-                        final _formValid =
-                            _formKey.currentState?.validate() ?? false;
+                        final _formValid = _formKey.currentState?.validate() ?? false;
                         if (_formValid) {
                           final email = _emailEC.text;
                           final password = _passwordEC.text;
 
-                          context
-                              .read<RegisterController>()
-                              .registerUser(email, password);
+                          context.read<RegisterController>().registerUser(email, password);
                         }
                       },
                       style: ElevatedButton.styleFrom(

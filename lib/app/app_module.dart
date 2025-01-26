@@ -9,7 +9,7 @@ import 'package:todo_list_provider/app/services/user/user_service.dart';
 import 'package:todo_list_provider/app/services/user/user_service_impl.dart';
 
 class AppModule extends StatelessWidget {
-  AppModule({Key? key}) : super(key: key);
+  const AppModule({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
