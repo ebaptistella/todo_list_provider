@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "551216410809",
+    "project_id": "todo-list-provider-c9668",
+    "storage_bucket": "todo-list-provider-c9668.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551216410809:android:c818947c42bded9ebb6b68",
+        "android_client_info": {
+          "package_name": "com.github.ebaptistella.todo_list_provider"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkZrcxLr1zXhbMf7KoUmEy3NOzAWK59hs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

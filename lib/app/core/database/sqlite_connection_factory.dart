@@ -1,14 +1,11 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sqlite_api.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:todo_list_provider/app/core/database/sql_migration_factory.dart';
 
 class SqliteConnectionFactory {
-
   static const _VERSION = 1;
   static const _DATABASE_NAME = 'TODO_LIST_PROVIDER';
-
 
   static SqliteConnectionFactory? _instance;
   Database? _db;
@@ -16,8 +13,8 @@ class SqliteConnectionFactory {
 
   SqliteConnectionFactory._();
 
-  factory SqliteConnectionFactory(){
-    if(_instance == null){
+  factory SqliteConnectionFactory() {
+    if (_instance == null) {
       _instance = SqliteConnectionFactory();
     }
 
@@ -28,19 +25,19 @@ class SqliteConnectionFactory {
     var databasePath = await getDatabasesPath();
     var databasePathFinal = join(databasePath, _DATABASE_NAME);
 
-    if(_db == null){
+    if (_db == null) {
       await _lock.synchronized(() async {
-          if(_db == null) {
-            _db = await openDatabase(
-              databasePathFinal,
-              version: _VERSION,
-              onConfigure: _onConfigure,
-              onCreate: _onCreate,
-              onUpgrade: _onUpgrade,
-              onDowngrade: _onDowngrade,
-            );
-          }
-        });
+        if (_db == null) {
+          _db = await openDatabase(
+            databasePathFinal,
+            version: _VERSION,
+            onConfigure: _onConfigure,
+            onCreate: _onCreate,
+            onUpgrade: _onUpgrade,
+            onDowngrade: _onDowngrade,
+          );
+        }
+      });
     }
 
     return _db!;
@@ -59,7 +56,7 @@ class SqliteConnectionFactory {
     final batch = db.batch();
 
     final migrations = SqliteMigrationFactory().getCreateMigration();
-    for (var migration in migrations){
+    for (var migration in migrations) {
       migration.create(batch);
     }
 
@@ -70,12 +67,12 @@ class SqliteConnectionFactory {
     final batch = db.batch();
 
     final migrations = SqliteMigrationFactory().getUpgradeMigration(oldVersion);
-    for (var migration in migrations){
+    for (var migration in migrations) {
       migration.create(batch);
     }
 
     batch.commit();
   }
-  
+
   Future<void> _onDowngrade(Database db, int oldVersion, int version) async {}
 }
