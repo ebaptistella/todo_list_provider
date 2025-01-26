@@ -20,12 +20,12 @@ class _AppWidgetState extends State<AppWidget> {
   void initState() {
     super.initState();
     //FirebaseAuth auth = FirebaseAuth.instance;
-    WidgetsBinding.instance.addObserver(sqliteAdminConnection);
+    //WidgetsBinding.instance.addObserver(sqliteAdminConnection);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(sqliteAdminConnection);
+    //WidgetsBinding.instance.removeObserver(sqliteAdminConnection);
     super.dispose();
   }
 

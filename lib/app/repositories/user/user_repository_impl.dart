@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:todo_list_provider/app/core/exception/auth_exception.dart';
 import 'package:todo_list_provider/app/repositories/user/user_repository.dart';
 
@@ -54,5 +55,40 @@ class UserRepositoryImpl implements UserRepository {
     } on PlatformException catch (e) {
       throw AuthException(message: 'Erro ao redefinir a senha');
     }
+  }
+
+  @override
+  Future<User?> googleLogin() async {
+    try {
+      final googleSignIn = GoogleSignIn();
+      final googleUser = await googleSignIn.signIn();
+      if (googleUser != null) {
+        final loginMethods = await _firebaseAuth.fetchSignInMethodsForEmail(googleUser.email);
+        if (loginMethods.contains('password')) {
+          throw AuthException(message: 'Você utilizou o e-mail para cadastro');
+        }
+
+        final googleAuth = await googleUser.authentication;
+        final firebaseProvider = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        final userCredentials = await _firebaseAuth.signInWithCredential(firebaseProvider);
+        return userCredentials.user;
+      }
+    } on FirebaseAuthException catch (e, s) {
+      if (e.code == 'account-exists-with-different-credentials') {
+        throw AuthException(message: 'Você se registrou com os provedores: xxx');
+      }
+
+      throw AuthException(message: 'Erro ao realizar login');
+    }
+  }
+
+  @override
+  Future<void> googleLogout() async {
+    await GoogleSignIn().signOut();
+    _firebaseAuth.signOut();
   }
 }
